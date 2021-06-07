@@ -24,38 +24,4 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    @Test
-    void verifyTest_nullInput_NullPointerException() {
-        assertThrows(NullPointerException.class, () -> userService.verify(null, ""));
-
-        assertThrows(NullPointerException.class, () -> userService.verify("", null));
-
-        verify(userRepository, never())
-                .findById(any());
-    }
-
-    @Test
-    void verifyTest_validInput_true() {
-        when(userRepository.findById("email"))
-                .thenReturn(of(User.builder()
-                        .email("email")
-                        .password("password")
-                        .build()));
-
-        assertTrue(userService.verify("email", "password"));
-
-        verify(userRepository, times(1))
-                .findById("email");
-    }
-
-    @Test
-    void verifyTest_inValidInput_false() {
-        when(userRepository.findById("email"))
-                .thenReturn(empty());
-
-        assertFalse(userService.verify("email", "password"));
-
-        verify(userRepository, times(1))
-                .findById("email");
-    }
 }

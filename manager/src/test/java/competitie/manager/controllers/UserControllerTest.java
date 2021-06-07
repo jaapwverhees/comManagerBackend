@@ -21,28 +21,4 @@ class UserControllerTest {
 
     @Autowired
     private UserController userController;
-
-    @Test
-    void validateTest_emailIsNull_nullPointerException() {
-        assertThrows(NullPointerException.class, () -> userController.validate(null, "password"));
-        verify(userService, never())
-                .verify(any(), any());
-    }
-
-    @Test
-    void validateTest_passwordIsNull_nullPointerException() {
-        assertThrows(NullPointerException.class, () ->
-                userController.validate("hello", null));
-        verify(userService, never())
-                .verify(any(), any());
-    }
-
-    @Test
-    void validateTest_validInput_true() {
-        when(userService.verify(any(), any()))
-                .thenReturn(true);
-        assertTrue(userController.validate("hello", "goodbye"));
-        verify(userService)
-                .verify(any(), any());
-    }
 }
